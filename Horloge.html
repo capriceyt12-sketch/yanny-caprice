@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horloge en temps réel</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .clock-box {
+      text-align: center;
+    }
+
+    .clock-title {
+      color: #ffffffcc;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+    }
+
+    input {
+      font-size: 2rem;
+      text-align: center;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #111;
+      color: #0ff;
+      width: 250px;
+      outline: none;
+      box-shadow: 0 0 10px #0ff, 0 0 20px #0ff inset;
+    }
+
+    input::selection {
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-box">
+    <div class="clock-title">⏰ Heure actuelle</div>
+    <input type="text" id="timeDisplay" readonly>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let hours = String(now.getHours()).padStart(2, '0');
+      let minutes = String(now.getMinutes()).padStart(2, '0');
+      let seconds = String(now.getSeconds()).padStart(2, '0');
+
+      document.getElementById("timeDisplay").value = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // lancement immédiat
+  </script>
+</body>
+</html>

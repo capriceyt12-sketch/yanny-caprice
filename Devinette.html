@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Jeu de Devinette</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .game-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 420px;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      color: #e67e22;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    input {
+      padding: 10px;
+      width: 120px;
+      border: 2px solid #e67e22;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      outline: none;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 15px;
+      font-size: 1rem;
+      margin: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #e67e22;
+      color: #fff;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #d35400;
+    }
+
+    .message {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      min-height: 40px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .hearts {
+      margin-top: 10px;
+      font-size: 1.5rem;
+      color: red;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h1>🔮 Devinette magique</h1>
+    <p>Devine le nombre entre <b>1 et 100</b> !<br>Tu as <b>10 chances</b> représentées par des ❤️.</p>
+
+    <input type="number" id="guess" placeholder="Ton nombre" min="1" max="100">
+    <br>
+    <button onclick="checkGuess()">Essayer</button>
+    <button id="restartBtn" onclick="restartGame()" disabled>Rejouer</button>
+
+    <div class="message" id="message"></div>
+    <div class="hearts" id="hearts"></div>
+  </div>
+
+  <script>
+    let secretNumber, attemptsLeft;
+
+    function startGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attemptsLeft = 10;
+      document.getElementById("message").textContent = "";
+      document.getElementById("restartBtn").disabled = true;
+      document.getElementById("guess").disabled = false;
+      updateHearts();
+    }
+
+    function updateHearts() {
+      document.getElementById("hearts").textContent = "❤️".repeat(attemptsLeft);
+    }
+
+    function checkGuess() {
+      const guess = Number(document.getElementById("guess").value);
+      const message = document.getElementById("message");
+      attemptsLeft--;
+
+      if (!guess || guess < 1 || guess > 100) {
+        message.textContent = "⚠️ Choisis un nombre entre 1 et 100.";
+      } 
+      else if (guess === secretNumber) {
+        message.textContent = "🎉 Bravo ! Tu as trouvé le nombre " + secretNumber + " !";
+        endGame();
+      } 
+      else if (guess > secretNumber) {
+        message.textContent = "⬇️ Trop grand, essaie plus petit !";
+      } 
+      else {
+        message.textContent = "⬆️ Trop petit, essaie plus grand !";
+      }
+
+      if (attemptsLeft > 0 && guess !== secretNumber) {
+        updateHearts();
+      }
+
+      if (attemptsLeft === 0 && guess !== secretNumber) {
+        message.textContent = "😢 Tu as perdu... Le nombre était " + secretNumber + ".";
+        endGame();
+      }
+
+      document.getElementById("guess").value = "";
+    }
+
+    function endGame() {
+      document.getElementById("guess").disabled = true;
+      document.getElementById("restartBtn").disabled = false;
+      document.getElementById("hearts").textContent = "";
+    }
+
+    function restartGame() {
+      startGame();
+    }
+
+    // Lancer une partie automatiquement
+    startGame();
+  </script>
+</body>
+</html>

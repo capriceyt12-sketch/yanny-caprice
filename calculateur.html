@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Calculateur de pret hypothécaire</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            
+        }
+
+        body {
+            margin: px;
+            margin-left: 270px;
+            margin-right: 270px;
+            background-color: whitesmoke;
+
+        }
+
+        h2 {
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        input {
+            
+            width: 95%;
+            padding: 10px;
+            background-color: rgb(26, 26, 102);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .body {
+            background-color: rgb(100, 100, 245);
+            padding: 20px;
+            margin: 160px;
+            border-radius: 20px;
+            box-shadow: 3px 0px 6px 2px rgba(0, 0, 0, 1.0) ;
+        }
+
+        button {
+            background-color: white;
+            border-radius: 5px;
+            border-color: rgb(26, 26, 102);
+            color: rgb(100, 100, 245);
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        #Reponse {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: black;
+            padding: 20px 50px;
+            background-color: white;
+            box-shadow: inset rgb(100, 100, 245);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="body">
+    <h2>Calculateur de prêt hypothécaire</h2>
+    
+    <label for="montant"> Le montant du prêt :</label>
+    <br>
+    <input type="number" id="montant" placeholder="Entrez le nombre"><br><br>
+    <label for="taux"> Le taux d'intérêt annuel :</label>
+    <br>
+    <input type="number" id="taux" placeholder="Entrez le nombre"><br><br>
+    <label for="duree">La durée du prêt (En année) :</label>
+    <br>
+    <input type="number" id="duree" placeholder="Entrez le nombre"><br><br>
+    <button onclick="Prethypothecaire()">Calculer</button>
+    <p id="Reponse"></p>
+    </div>
+
+    <script>
+        function Prethypothecaire() {
+            const montant = parseFloat(document.getElementById("montant").value);
+            const taux = parseFloat(document.getElementById("taux").value);
+            const duree = parseInt(document.getElementById("duree").value);
+            const Reponse = document.getElementById("Reponse");
+            if (montant <= 0 || isNaN(montant)) {
+                alert("Veuillez entrer un montant valide.");
+                return;
+            }
+            if (taux <= 0 || isNaN(taux)) {
+                alert("Veuillez entrer un taux d'intéret valide.");
+                return;
+            }
+            if (duree <= 0 || isNaN(duree)) {
+                alert("Veuillez entrer une durée valide.");
+                return;
+            }
+
+            const r = (taux / 100) / 12;
+            const n = duree * 12; 
+            const M = montant * (r * Math.pow(1 + r,n)) / (Math.pow(1 + r,n) - 1);
+
+            Reponse.textContent = `▶ Paiement : ${M.toFixed(2)}.`;
+        }
+    </script>
+
+
+    
+</body>
+</html>
